@@ -8,6 +8,7 @@ export function openPopup(popup) {
 // Функция закрытия модального окна
 export function closePopup(popup) {
   document.removeEventListener('keydown', handlerCloseModal);
+  popup.removeEventListener('click', handlerCloseModal);
   popup.classList.remove('popup_is-opened');
 }
 

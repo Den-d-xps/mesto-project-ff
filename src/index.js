@@ -1,11 +1,11 @@
 import './pages/index.css';
-import { initialCards, createCard } from './scripts/cards';
+import { initialCards } from './scripts/constant';
+import { createCard } from './scripts/card';
 import { openPopup, closePopup } from './scripts/modal';
 
 
 // DOM узлы
 const profile = {
-  'conteiner' : document.querySelector('.profile'),
   'name' : document.querySelector('.profile__title'),
   'description' : document.querySelector('.profile__description'),
   'button' : document.querySelector('.profile__edit-button'),
@@ -28,19 +28,24 @@ const card = {
 };
 
 
-// Обработчик открытия форм
-function handlerOpenForms(evt) {
-  switch (evt.target) {
-    case profile.button:
-      profile.inputs.name.value = profile.name.textContent;
-      profile.inputs.job.value = profile.description.textContent;
-      openPopup(profile.popup);
-      break;
-    case card.button:
-      openPopup(card.popup);
-      break;
-  };
+// Функция открытия картинки карточки
+function openImage (link, name) {
+  const popup = document.querySelector('.popup_type_image');
+  const imagePopup = popup.querySelector('.popup__image');
+  const titlePopup = popup.querySelector('.popup__caption');
+
+  imagePopup.src = link;
+  titlePopup.textContent = name;
+  openPopup(popup);
 };
+
+
+// Обработчик открытия формы редактирования профиля
+function handlerOpenProfile() {
+  profile.inputs.name.value = profile.name.textContent;
+  profile.inputs.job.value = profile.description.textContent;
+  openPopup(profile.popup);
+}
 
 // Обработчик изменения профиля
 function handlerChangeProfile(evt) {
@@ -51,6 +56,11 @@ function handlerChangeProfile(evt) {
   closePopup(profile.popup);
 }
 
+// Обработчик открытия формы добавление карточки
+function handlerOpenFormCard() {
+  openPopup(card.popup);
+}
+
 // Обработчик добавление карточки
 function handlerAddCard(evt) {
   evt.preventDefault();
@@ -59,7 +69,7 @@ function handlerAddCard(evt) {
     'name' : card.inputs.name.value,
     'link' : card.inputs.url.value
   }
-  const cardElement = createCard(data);
+  const cardElement = createCard(data, openImage);
 
   card.conteiner.prepend(cardElement);
   card.inputs.name.value = '';
@@ -70,11 +80,12 @@ function handlerAddCard(evt) {
 
 // Выводим начальный список карточек на страницу
 initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData);
+  const cardElement = createCard(cardData, openImage);
   card.conteiner.append(cardElement);
 });
 
 // Добавление слушателей
-profile.conteiner.addEventListener('click', handlerOpenForms)
+profile.button.addEventListener('click', handlerOpenProfile);
+card.button.addEventListener('click', handlerOpenFormCard);
 profile.form.addEventListener('submit', handlerChangeProfile); 
 card.form.addEventListener('submit', handlerAddCard); 
