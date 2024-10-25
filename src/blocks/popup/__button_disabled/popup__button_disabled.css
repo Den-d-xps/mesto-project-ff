@@ -1,0 +1,10 @@
+.popup__button_disabled {
+  opacity: .2;
+  background-color: inherit;
+  color: #000;
+  border: 1px solid currentColor;
+}
+.popup__button_disabled:hover {
+  pointer-events: none;
+  background-color: inherit;
+}
