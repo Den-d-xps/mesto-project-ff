@@ -1,10 +1,27 @@
 // Шаблон карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
+// функция установки отображения карточки для заданного юзера
+export const setStateCardForUser = (cardElement, cardData, userId) => {
+  const delButton = cardElement.querySelector('.card__delete-button');
+  const likeButton = cardElement.querySelector('.card__like-button');
+  const isMyPost = cardData.owner._id === userId;
+  const hasLike = cardData.likes.some((likeUser) => {
+    return likeUser._id === userId;
+  });
+
+  if (hasLike) {
+    likeCard(likeButton);
+  };
+
+  if (!isMyPost) {
+    delButton.remove();
+  }
+};
 
 
 // Функция создания карточки
-const createCard = (data, callbacks) => {
+export const createCard = (data, callbacks) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const delButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
@@ -12,6 +29,7 @@ const createCard = (data, callbacks) => {
   const title = cardElement.querySelector('.card__title');
 
   image.src = data.link;
+  image.alt = data.name;
   title.textContent = data.name;
   likeButton.textContent = data.likes.length;
 
@@ -31,21 +49,25 @@ const createCard = (data, callbacks) => {
 
 
 // Функция удаления карточки
-const deleteCard = (evt) => {
+export const deleteCard = (evt) => {
   const cardItem = evt.target.closest('.card');
   cardItem.remove();
 };
 
 
 // Функция лайка карточки
-const likeCard = (element) => {
+export const likeCard = (element) => {
   element.classList.toggle('card__like-button_is-active');
 };
 
+// Функция проверки на наличие лайка
+export const isLiked = (buttonElement) => {
+ return buttonElement.classList.contains('card__like-button_is-active');
+};
 
-// Объект экспорта
-export const card = {
-  create: createCard,
-  delete: deleteCard,
-  like: likeCard  
-}
+
+// Функция установки счетчика лайков
+export const setLikeCount = (buttonElement, count) => {
+  buttonElement.textContent = count;
+};
+

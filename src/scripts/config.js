@@ -21,7 +21,12 @@ const profileElementList = {
 const cardElementList = {
   'conteiner' : document.querySelector('.places__list'),
   'button' : document.querySelector('.profile__add-button'),
-  'popup' : document.querySelector('.popup_type_new-card'),
+  'popupNewCard' : document.querySelector('.popup_type_new-card'),
+  'popupImage' : {
+    'container' : document.querySelector('.popup_type_image'),
+    'image' : document.querySelector('.popup__image'),
+    'title' : document.querySelector('.popup__caption')
+  },
   'form' : document.forms['new-place'], 
   'inputs' : {
     'name' : document.querySelector('.popup__input_type_card-name'),

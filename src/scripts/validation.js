@@ -56,7 +56,7 @@ const setEventListeners = (formElement, validationConfig) => {
   });
 };
 
-const clearValidation = (formElement, validationConfig) => {
+export const clearValidation = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
   toggleButtonState(inputList, buttonElement, validationConfig);
@@ -65,18 +65,9 @@ const clearValidation = (formElement, validationConfig) => {
   });
 };
 
-const enableValidation = (validationConfig) => {
+export const enableValidation = (validationConfig) => {
   const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
   formList.forEach((formElement) => {
-    formElement.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-    });
     setEventListeners(formElement, validationConfig);
   });
 };
-
-// Объект экспорта
-export const validation = {
-  enable: enableValidation,
-  clear: clearValidation
-}
