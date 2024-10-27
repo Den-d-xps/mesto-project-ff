@@ -44,9 +44,13 @@ const validationConfig = {
   errorClass: 'popup__error_visible'
 };
 
+// id пользователя
+const myId = '';
+
 // Объект экспорта
 export const config = {
   profile: profileElementList,
   card: cardElementList,
-  validation: validationConfig
+  validation: validationConfig,
+  myId
 }

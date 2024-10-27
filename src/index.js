@@ -102,7 +102,7 @@ function handlerAddCard(evt) {
   buttonElement.disabled = true;
   api.addNewCard(config.card.inputs.name.value, config.card.inputs.url.value)
     .then((cardData) => {
-      const cardElement = card.createCard(cardData, {deleteCard, likeCard, openImage});
+      const cardElement = card.createCard(cardData, config.myId, {deleteCard, likeCard, openImage});
       config.card.conteiner.prepend(cardElement);
       config.card.inputs.name.value = '';
       config.card.inputs.url.value = '';
@@ -156,9 +156,10 @@ config.card.button.addEventListener('click', handlerOpenFormCard);
 config.profile.avatar.addEventListener('click', handlerOpenFormAvatar);
 config.profile.forms.editInfo.addEventListener('submit', handlerChangeProfile); 
 config.card.form.addEventListener('submit', handlerAddCard);
-config.profile.forms.changeAvatar.addEventListener('submit', handlerChangeAvatar)
+config.profile.forms.changeAvatar.addEventListener('submit', handlerChangeAvatar);
  
-
+// добавление слушателей для модальных окон
+modal.setEventListenersModal();
 
 // Включение валидации
 validation.enableValidation(config.validation); 
@@ -171,10 +172,10 @@ const initializationPage = () => {
     config.profile.name.textContent = userData.name;
     config.profile.description.textContent = userData.about;
     config.profile.avatar.style = `background-image: url(${userData.avatar})`;
+    config.myId = userData._id
 
     cardList.forEach((cardData) => {
-      const cardElement = card.createCard(cardData, {deleteCard, likeCard, openImage});
-      card.setStateCardForUser(cardElement, cardData, userData._id); 
+      const cardElement = card.createCard(cardData, config.myId, {deleteCard, likeCard, openImage}); 
       config.card.conteiner.append(cardElement);
     })
   })

@@ -2,7 +2,7 @@
 const cardTemplate = document.querySelector('#card-template').content;
 
 // функция установки отображения карточки для заданного юзера
-export const setStateCardForUser = (cardElement, cardData, userId) => {
+const setStateCardForUser = (cardElement, cardData, userId) => {
   const delButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
   const isMyPost = cardData.owner._id === userId;
@@ -21,27 +21,28 @@ export const setStateCardForUser = (cardElement, cardData, userId) => {
 
 
 // Функция создания карточки
-export const createCard = (data, callbacks) => {
+export const createCard = (dataCard, ownerId, callbacks) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const delButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
   const image = cardElement.querySelector('.card__image');
   const title = cardElement.querySelector('.card__title');
 
-  image.src = data.link;
-  image.alt = data.name;
-  title.textContent = data.name;
-  likeButton.textContent = data.likes.length;
+  image.src = dataCard.link;
+  image.alt = dataCard.name;
+  title.textContent = dataCard.name;
+  likeButton.textContent = dataCard.likes.length;
 
+  setStateCardForUser(cardElement, dataCard, ownerId);
 
   delButton.addEventListener('click', (evt) => {
-    callbacks.deleteCard(evt, data._id)
+    callbacks.deleteCard(evt, dataCard._id)
   });
   likeButton.addEventListener('click', (evt) => {
-    callbacks.likeCard(evt, data._id);
+    callbacks.likeCard(evt, dataCard._id);
   });
   image.addEventListener('click', () => {
-    callbacks.openImage(data.link, data.name);
+    callbacks.openImage(dataCard.link, dataCard.name);
   });
 
   return cardElement;

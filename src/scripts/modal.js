@@ -25,9 +25,6 @@ const closeByEsc = (evt) => {
 // Функция открытия модального окна
 export const openPopup = (popup) => {
   document.addEventListener('keydown', closeByEsc);
-  popup.addEventListener('click', (evt) => {
-    handlerCloseModal(evt, popup)
-  });
   popup.classList.add('popup_is-opened');
 };
 
@@ -35,8 +32,15 @@ export const openPopup = (popup) => {
 // Функция закрытия модального окна
 export const closePopup = (popup) => {
   document.removeEventListener('keydown', closeByEsc);
-  popup.removeEventListener('click', (evt) => {
-    handlerCloseModal(evt, popup)
-  });
   popup.classList.remove('popup_is-opened');
 };
+
+export const setEventListenersModal = () => {
+  const modalList = Array.from(document.querySelectorAll('.popup'));
+
+  modalList.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+      handlerCloseModal(evt, popup)
+    });
+  });
+}
